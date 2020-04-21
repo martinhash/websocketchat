@@ -1,5 +1,10 @@
 module.exports = function(io){
     io.on('connection', socket=>{
-        console.log("New user connected");
+
+        socket.on('send:message', function(data){
+            console.log(data);
+            
+        })
+
     })
 }
