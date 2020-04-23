@@ -15,7 +15,7 @@ module.exports = function(io){
                 cb(true);
                 socket.nickName = data;
                 nickNames.push(socket.nickName);
-                io.sockets.emit('usernames', nickNames);
+                updateNickNames();
             }
         });
 
@@ -23,7 +23,18 @@ module.exports = function(io){
             io.sockets.emit('new message', data)
         });
 
+        socket.on('disconnect', data => {
+            if(!socket.nickName){
+                return;
+            }else{
+                nickNames.splice(nickNames.indexOf(socket.nickName), 1);
+                updateNickNames();
+            }
+        })
 
+        function updateNickNames(){
+            io.sockets.emit('usernames', nickNames);
+        }
 
     })
 }
