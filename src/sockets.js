@@ -1,7 +1,7 @@
 module.exports = function(io){
 
 
-    let nickNames = [];
+    let users = {};
 
     io.on('connection', socket=>{
 
@@ -9,17 +9,31 @@ module.exports = function(io){
         socket.on('new user', function(data, cb){
             console.log(data);
             
-            if(nickNames.indexOf(data) != -1){
+            if(data in users){
                 cb(false);
             }else{
                 cb(true);
                 socket.nickName = data;
-                nickNames.push(socket.nickName);
+                users[socket.nickName] = socket;
                 updateNickNames();
             }
         });
 
         socket.on('send message', data => {
+
+            const message = data.trim();
+
+            if(message.substr(0, 3) === '/p '){
+                message = message.substr(3);
+                const index = message.indexOf(' ');
+                if(index === -1){
+                    var name = message.substr(0, index);
+                    var message = message.substr(index + 1);
+
+                }
+            }
+
+
             io.sockets.emit('new message', {
                 msg: data,
                 nick: socket.nickName
@@ -30,7 +44,7 @@ module.exports = function(io){
             if(!socket.nickName){
                 return;
             }else{
-                nickNames.splice(nickNames.indexOf(socket.nickName), 1);
+                delete users[socket.nickName];
                 updateNickNames();
             }
         })
