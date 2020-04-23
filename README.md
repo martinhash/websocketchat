@@ -13,7 +13,13 @@ A Basic escalable grupal chat with socket.io
 > npm start 
 
 ```
-## Authors
+## Send a private message
+
+To send a connected user put inside input chat: 
+```
+> /w joe Hi joe, this is a private message
+```
+
 
 ## Getting starter
 
