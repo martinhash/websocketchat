@@ -4,6 +4,7 @@ A Basic escalable grupal chat with socket.io
 
 - [x] socket.io
 - [x] node
+- [x] bootstrap
 
 ### Start
 ```
