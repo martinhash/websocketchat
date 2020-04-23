@@ -35,7 +35,13 @@ $(function (){
     //EVENTS
     $messageForm.submit( (e)=>{
         e.preventDefault();
-        socket.emit('send message', $messageBox.val())
+        socket.emit('send message', $messageBox.val(), data =>{
+            $chat.append(`
+                <p class="error">
+                    ${data}
+                </p>
+            `)
+        });
         $messageBox.val('');
     })
 
@@ -47,13 +53,14 @@ $(function (){
         let html = '';
         for(let i = 0; i < data.length; i++){
             html += `
-                <p>
-                <i class="fas fa-user"></i>
-                ${data[i]}
-                </p>
+                <p><i class="fas fa-user"></i>${data[i]}</p>
             `
         }
         $users.html(html);
     })
-
+    socket.on('whisper', data =>{
+        $chat.append(`
+        <p class="whisper"><b>${data.nick}: </b>${data.message}</p>
+        `)
+    })
 })

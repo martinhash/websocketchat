@@ -6,3 +6,12 @@ body{
 #contentWrap{
     display: none;
 }
+
+.error{
+    color:red;
+}
+
+.whisper{
+    color:#ddd;
+    font-style: italic;
+}
